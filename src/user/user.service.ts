@@ -1,26 +1,38 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { CrudService } from '../generics/crud';
+import { User, UserRoleEnum } from './entities/user.entity';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+
+import * as bcrypt from 'bcrypt';
+import { RegisterDto } from 'src/auth/dto/register.dto';
 
 @Injectable()
-export class UserService {
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+export class UserService extends CrudService<User> {
+  constructor(
+    @InjectRepository(User)
+    private userRepository: Repository<User>,
+  ) {
+    super(userRepository);
   }
 
-  findAll() {
-    return `This action returns all user`;
+  async create(registerDto: RegisterDto): Promise<User> {
+    const user = this.userRepository.create(registerDto);
+    user.salt = await bcrypt.genSalt();
+    user.password = await bcrypt.hash(user.password, user.salt);
+    user.role = UserRoleEnum.user;
+    return this.userRepository.save(user);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
-  }
-
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async getUserByUserNameOrEmail(
+    username: string,
+    email: string,
+  ): Promise<User> {
+    console.log('in getUserBy....');
+    const user = await this.userRepository.findOne({
+      where: [{ username }, { email }],
+    });
+    console.log(user);
+    return user;
   }
 }
