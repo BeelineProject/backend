@@ -1,4 +1,6 @@
+/* eslint-disable prettier/prettier */
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+// eslint-disable-next-line prettier/prettier
 import { Reflector } from '@nestjs/core';
 import { Observable } from 'rxjs';
 

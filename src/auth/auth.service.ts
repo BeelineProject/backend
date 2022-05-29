@@ -42,6 +42,7 @@ export class AuthService {
     //  1-1 ok tester le mdp
     //  1-2 ko throw error
     const { identifier, password } = credentialsDto;
+
     const user = await this.userService.getUserByUserNameOrEmail(
       identifier,
       identifier,
