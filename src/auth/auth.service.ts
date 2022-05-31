@@ -42,10 +42,12 @@ export class AuthService {
     //  1-1 ok tester le mdp
     //  1-2 ko throw error
     const { identifier, password } = credentialsDto;
-
+    console.log(credentialsDto);
+    console.log(credentialsDto.password);
+    console.log('inside login');
     const user = await this.userService.getUserByUserNameOrEmail(
       identifier,
-      identifier,
+      identifier
     );
     if (!user) {
       throw new UnauthorizedException('Veuillez vérifier vos credentials');

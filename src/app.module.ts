@@ -5,12 +5,15 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { GenericsModule } from './generics/generics.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { SurveyModule } from './survey/survey.module';
+
 
 @Module({
   imports: [
     AuthModule,
     UserModule,
     GenericsModule,
+    SurveyModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
@@ -22,6 +25,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       synchronize: true,
       // debug: true,
     }),
+    
   ],
   controllers: [AppController],
   providers: [AppService],
