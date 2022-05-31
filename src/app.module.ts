@@ -7,6 +7,7 @@ import { GenericsModule } from './generics/generics.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SurveyModule } from './survey/survey.module';
 
+
 @Module({
   imports: [
     AuthModule,
@@ -24,6 +25,7 @@ import { SurveyModule } from './survey/survey.module';
       synchronize: true,
       // debug: true,
     }),
+    
   ],
   controllers: [AppController],
   providers: [AppService],

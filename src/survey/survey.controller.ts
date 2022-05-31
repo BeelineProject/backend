@@ -20,6 +20,11 @@ export class SurveyController {
   findAll() {
     return this.surveyService.findAll();
   }
+  @Get(':location')
+  finByName(@Param('location') location: string){
+    const date = new Date();
+    return this.surveyService.findByName(location,date);
+  }
 
   @Get(':id')
   findOne(@Param('id') id: string) {

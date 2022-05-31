@@ -1,5 +1,5 @@
 import { TiemstampEntity } from 'src/generics/tiemstamp.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 export enum UserRoleEnum {
   admin = 'ROLE:ADMIN',

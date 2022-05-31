@@ -16,7 +16,7 @@ export class AuthController {
   }
   @Post('login')
   login(@Body() credentialsDto: CredenialsDto): Promise<LoginResponeDto> {
-    console.log('inside controller');
+    console.log(credentialsDto);
     return this.authService.login(credentialsDto);
   }
 }

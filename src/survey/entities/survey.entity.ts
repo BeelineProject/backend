@@ -31,4 +31,6 @@ export class Survey {
     addition : String;
     @CreateDateColumn()
     created_at: Date;
+    @Column()
+    isValidated : boolean;
 }

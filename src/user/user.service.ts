@@ -29,9 +29,11 @@ export class UserService extends CrudService<User> {
     email: string,
   ): Promise<User> {
     console.log('in getUserBy....');
-    const user = await this.userRepository.findOne({
-      where: [{ username }, { email }],
-    });
+    const user = await this.userRepository
+                .createQueryBuilder("user")
+                .where(" user.username = :username",{username: username})
+                .orWhere(" user.email = :email",{email: email})
+                .getOne();
     console.log(user);
     return user;
   }
