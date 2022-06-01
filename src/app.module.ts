@@ -6,6 +6,7 @@ import { UserModule } from './user/user.module';
 import { GenericsModule } from './generics/generics.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SurveyModule } from './survey/survey.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 
 @Module({
@@ -14,6 +15,7 @@ import { SurveyModule } from './survey/survey.module';
     UserModule,
     GenericsModule,
     SurveyModule,
+    ScheduleModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',

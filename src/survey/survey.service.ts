@@ -1,5 +1,6 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Cron, Interval, Timeout } from '@nestjs/schedule';
 import { Repository } from 'typeorm';
 import { CreateSurveyDto } from './dto/create-survey.dto';
 import { UpdateSurveyDto } from './dto/update-survey.dto';
@@ -15,16 +16,38 @@ export class SurveyService {
     private surveyRepository: Repository<Survey>,
   ) {}
 
+
   async create( newSurvey: Partial<Survey>):Promise<Survey> {
     try {
-      newSurvey.isValidated=true;
+      var date = new Date();
+      date.setHours(date.getHours() - 2);
+      console.log(date);
+      const result = await this.surveyRepository
+      .createQueryBuilder("survey")
+      .select("count(survey.location)","count")
+      .where(" survey.location like :location",{location: '%'+ newSurvey.location })
+      .andWhere(" survey.state like :state",{state: '%'+ newSurvey.state })
+      .andWhere(" survey.deletedAt is NuLL")
+      .andWhere(" survey.created_at > :date ",{date:  date})
+      .getCount()
+      console.log(result);
+      if (result>=3)
+      {newSurvey.isValidated=true;} 
+      else {newSurvey.isValidated=false;}
+//this function deletes the information after 4 hours since it is no longer usefull
+      setTimeout(
+        ()=>{this.surveyRepository.softDelete(newSurvey.id); 
+             console.log(`deleted ${newSurvey.id}`);},
+             4*60*60*1000);
+
       return await this.surveyRepository.save(newSurvey);
     } catch (e) {
       console.log(e);
-      throw new InternalServerErrorException();
+      throw e;
     }
   }
-
+ 
+ 
   async findByName(location: String, date : Date) {
   try { 
     date.setHours(date.getHours() - 2);
@@ -34,6 +57,7 @@ export class SurveyService {
                 .where(" survey.location like :location",{location: '%'+ location })
                 .andWhere(" survey.created_at > :date ",{date: date})
                 .andWhere("survey.isValidated = :bool" , {bool:true})
+                .andWhere(" survey.deletedAt is NuLL")
                 .getOne();
     return result ;}
     
@@ -70,4 +94,6 @@ export class SurveyService {
 function SurveyEntity(SurveyEntity: any) {
   throw new Error('Function not implemented.');
 }
+
+
 

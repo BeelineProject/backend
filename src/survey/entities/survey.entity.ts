@@ -1,7 +1,7 @@
 
 import { CauseEnum } from 'src/enums/cause.enum';
 import { TrafficStateEnum } from 'src/enums/traffic-state.enum';
-import { Entity, PrimaryGeneratedColumn, Column, PrimaryColumn, CreateDateColumn} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, PrimaryColumn, CreateDateColumn, DeleteDateColumn} from 'typeorm';
 
 @Entity()
 export class Survey {
@@ -33,4 +33,6 @@ export class Survey {
     created_at: Date;
     @Column()
     isValidated : boolean;
+    @DeleteDateColumn()
+    deletedAt : Date;
 }
