@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
 import { SurveyService } from './survey.service';
 import { SurveyController } from './survey.controller';

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   Controller,
   Get,
@@ -35,6 +36,15 @@ export class UserController {
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(+id, updateUserDto);
   }
+  @Get('inc:id')
+  async inc(@Param('id') id: string) {
+   const  user=this.userService.findOne(+id);
+   console.log("hellooo"+user);
+    await (await user).points +  1; 
+    console.log(user);
+    return this.userService.update(+id, user);
+  }
+
 
   // @Delete(':id')
   // remove(@Param('id') id: string) {
