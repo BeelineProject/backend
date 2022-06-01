@@ -9,4 +9,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
   controllers: [SurveyController],
   providers: [SurveyService]
 })
-export class SurveyModule {} 
+export class SurveyModule {
+  
+} 
