@@ -26,12 +26,13 @@ export class AuthService {
      *  save user
      * */
     console.log('inside servive');
-    const { username, email } = registerDto;
+    const { username, email} = registerDto;
     let user = await this.userService.getUserByUserNameOrEmail(username, email);
     if (user) {
       throw new UnauthorizedException('Le user existe déjà');
     }
     user = await this.userService.create(registerDto);
+  
     delete user.password;
     delete user.salt;
     return user;

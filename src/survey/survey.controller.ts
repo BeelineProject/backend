@@ -4,6 +4,7 @@ import { CreateSurveyDto } from './dto/create-survey.dto';
 import { UpdateSurveyDto } from './dto/update-survey.dto';
 import { Survey } from './entities/survey.entity';
 import { v4 as uuidv4 } from 'uuid';
+import { DateDto } from './dto/date.dto';
 @Controller('survey')
 export class SurveyController {
   constructor(private readonly surveyService: SurveyService) {}
@@ -26,19 +27,23 @@ export class SurveyController {
     return this.surveyService.findByName(location,date);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.surveyService.findOne(+id);
+  @Get('/get/count')
+  countSurvey() {
+    return this.surveyService.countSurvey();
+  }
+  @Get('count/date')
+  countByDate(@Body() dateDto:DateDto) {
+    return this.surveyService.countByDate(dateDto);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateSurveyDto: UpdateSurveyDto) {
     return this.surveyService.update(+id, updateSurveyDto);
   }
-
+ 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.surveyService.remove(+id);
+    return this.surveyService.remove(id);
   }
 }
 

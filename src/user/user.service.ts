@@ -37,4 +37,17 @@ export class UserService extends CrudService<User> {
     console.log(user);
     return user;
   }
+  
+  async delete(id: string) {
+    console.log("inside remove");
+     return await this.userRepository.softDelete(id);
+     
+  }
+  async count(){
+    const result = await this.userRepository
+    .count();
+    console.log('Iam here');
+    return result;
+   
+  }
 }

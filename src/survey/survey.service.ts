@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { CreateSurveyDto } from './dto/create-survey.dto';
 import { UpdateSurveyDto } from './dto/update-survey.dto';
 import { Survey} from './entities/survey.entity';
+import { DateDto } from './dto/date.dto';
 
 
 @Injectable()
@@ -70,30 +71,48 @@ export class SurveyService {
     var date = new Date();
     const result = await this.surveyRepository
                 .createQueryBuilder("survey")
-                .select (["survey.created_at"])
-                .where(" survey.location = :location",{location: "insat"})
-                .getOne();
-                date.setHours(date.getHours() - 2);
-    var bool = result.created_at > date ;
+                .getMany();
+  
     
-    return bool;
+    return result;
   }
 
   findOne(id: number) {
     return `This action returns a #${id} survey`;
+  }
+async countSurvey(){
+    const result = await this.surveyRepository
+    .count();
+    console.log('Iam here');
+    return result;
+   
+  }
+  async countByDate(dateDto:DateDto){ 
+    var date = dateDto.date;
+    date.setHours(0);
+    date.setMinutes(0);
+    const result = await this.surveyRepository
+    .createQueryBuilder("survey")
+    .select("survey.location")
+    .andWhere(" survey.deletedAt is NuLL")
+    .andWhere(" survey.created_at >= :date ",{date: date })
+    .getCount()
+    console.log(result);
+    return result;
   }
 
   update(id: number, updateSurveyDto: UpdateSurveyDto) {
     return `This action updates a #${id} survey`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} survey`;
+  async remove(id: string) {
+    console.log("inside remove");
+     return await this.surveyRepository.softDelete(id);
+     
   }
 }
-function SurveyEntity(SurveyEntity: any) {
-  throw new Error('Function not implemented.');
-}
+
+
 
 
 
