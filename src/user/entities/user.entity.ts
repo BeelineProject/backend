@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { TiemstampEntity } from 'src/generics/tiemstamp.entity';
 import { Column, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -20,4 +21,6 @@ export class User extends TiemstampEntity {
   salt: string;
   @Column()
   role: UserRoleEnum;
+  @Column({'default':0})
+  points: number;
 }
