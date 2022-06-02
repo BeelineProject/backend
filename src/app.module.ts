@@ -7,6 +7,10 @@ import { GenericsModule } from './generics/generics.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SurveyModule } from './survey/survey.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { AdModule } from './ad/ad.module';
+import { MulterModule } from '@nestjs/platform-express';
+
+import { MessageUserModule } from './message-user/message-user.module';
 
 
 @Module({
@@ -27,6 +31,10 @@ import { ScheduleModule } from '@nestjs/schedule';
       synchronize: true,
       // debug: true,
     }),
+    AdModule,
+    MulterModule.register({
+    }),
+    MessageUserModule
     
   ],
   controllers: [AppController],
